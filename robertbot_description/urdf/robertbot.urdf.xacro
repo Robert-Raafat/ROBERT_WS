@@ -1,1 +1,499 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robertbot" >
+
+    <!--Useful Variables (Properties)-->
+    <xacro:property name="PI" value="3.14159265359" />
+    <xacro:property name="effort" value="1000" />
+    <xacro:property name="velocity" value="1" />
+    
+    
+    <material name="pinky" >
+        <color rgba="0.98 0.52 0.66 1.0" />
+    </material>
+    <material name="black" >
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    <material name="blueblue" >
+        <color rgba="0.13 0.25 0.78 1.0" />
+      </material>
+    <material name="darkgreen" >
+        <color rgba="0.019 0.28 0.02 1.0" />
+      </material>
+    <material name="coolgrey" >
+        <color rgba="0.58 0.63 0.65 1.0" />
+      </material>
+    <material name="darkgold" >
+        <color rgba="0.70 0.58 0.06 1.0" />
+    </material>
+    <material name="white" >
+        <color rgba="1.0 1.0 1.0 1.0" />
+    </material>
+
+    <!-- Links -->
+    
+    <link name="world" /> 
+
+    <link name="base_link_r">
+        <visual>
+            <origin rpy="0 4.7 0" xyz="0.45 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketr.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="base_link_l">
+        <visual>
+            <origin rpy="0 -4.7 3.14" xyz="0.45 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketl.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="servo1_bracket">
+        <visual>
+            <origin rpy="1.57 0 0" xyz="-0.1 0.3 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="servo1">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="servo1_horn">
+        <visual>
+            <origin rpy="1.57 0 0" xyz="0 0 0.0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="servo2_bracket">
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.23 -0.4 0.24"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="doublelongu_servobracketl">
+        <visual>
+            <origin rpy="3.14 0 0" xyz="-0.28 0.52 0.15"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+
+    </link>
+
+
+    <link name="doublelongu_servobracketr">
+
+        <visual> 
+            <origin rpy="0 0 0" xyz="-0.28 -0.02 -0.1"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    <link name="servo2">
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.17 0.01 0.06"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <link name="servo2_horn">
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="-0.01 0.12 -0.02"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+
+    <link name="core_u">
+
+        <visual name='ul'> 
+            <origin rpy="0 1.57 1.57" xyz="0.01 -0.37 0.14"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+          <material name="white" />
+        </visual>
+        
+
+        <visual name='core'>
+            <origin rpy="0 0 1.57" xyz="-0.135 0.28 -3.81"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           <material name="white" />
+        </visual>
+
+        <visual name='ur'>
+            <origin rpy="0 1.57 1.57" xyz="0.012 0.89 0.14"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        
+        <visual name='ul_outer'>
+            <origin rpy="0 1.57 -3.14" xyz="-0.11 0.28 -0.13"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+
+        <visual name='ur_outer'> 
+            <origin rpy="0 1.57 0" xyz="-0.36 0.81 -0.13"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+
+    </link>
+
+    <link name="servo3">
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.19 0.04 0.02"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+         <material name="white" />
+        </visual>
+    </link>
+    
+    <link name="servo3_horn">
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.01 0.15 -0.06"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    <link name='bracketu4'>
+        <visual>
+        <origin rpy="0 0 4.7" xyz="-0.52 0.55 -3.82"/>
+        <geometry>
+            <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF2.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+ 
+        </visual>
+    </link>
+
+    
+    <link name="servo4">
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.21 -0.01 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    <link name="servo4_horn">
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.04 -0.04 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           <material name="white" />
+        </visual>
+    </link>
+    
+    <link name="servo5">
+        <visual>
+            <origin rpy="-1.57 1.57 0" xyz="0 -0.27 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            
+        </visual>
+    </link>
+
+    <link name="servo5_horn">
+        <visual>
+            <origin rpy="1.57 1.57 1.57" xyz="0 -0.04 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           
+        </visual>
+    </link>
+
+
+    <link name="gripper_base">
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.18 0.49 -3.82"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperbase.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            
+        </visual>
+    </link>
+
+    <link name="gripper_left">
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.25 0.74 -3.84"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsleft.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           
+        </visual>
+    </link>
+
+    <link name="servo6">
+        <visual>
+            <origin rpy="0 0 1.57" xyz="0.11 0 -0.4"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           
+        </visual>
+    </link>
+
+    <link name="servo6_horn">
+        <visual>
+            <origin rpy="1.57 0 1.57" xyz="0 -0.14 -0.07"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+           
+        </visual>
+    </link>
+
+    <link name="gripper_right">
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.17 0.77 -3.9"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsright.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+         
+        </visual>
+    </link>
+
+    <!--
+    <link name="gripper">
+        <visual>
+            <origin rpy="-0.2 0 -1.57" xyz="-1.32 1.07 -5.2"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripper.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="blueblue" />
+        </visual>
+    </link>
+-->
+ 
+
+
+
+
+    <!-- Joints -->  
+    <joint name="virtual_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link_r"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint1" type="fixed">
+        <parent link="base_link_r"/>
+        <child link="base_link_l"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    
+    <joint name="joint2" type="fixed">
+        <parent link="base_link_r"/>
+        <child link="servo1_bracket"/>
+        <origin xyz="-0.1 0.2 0.14" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint3" type="fixed">
+        <parent link="servo1_bracket"/>
+        <child link="servo1"/>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+
+    </joint> 
+
+    <joint name="joint4" type="revolute">
+        <parent link="servo1"/>
+        <child link="servo1_horn"/>
+        <origin xyz="0 0.095 0.37" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-${2*PI/3}" upper="${2*PI/3}" effort="${effort}" velocity="${velocity}"/>
+    </joint> 
+
+    <joint name="joint5" type="fixed">
+        <parent link="servo1_horn"/>
+        <child link="servo2_bracket"/>
+        <origin xyz="0.01 0 0.06" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint6" type="fixed">
+        <parent link="servo2_bracket"/>
+        <child link="servo2"/>
+        <origin xyz="0.01 -0.1 0.06" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint7" type="revolute">
+        <parent link="servo2_bracket"/>
+        <child link="doublelongu_servobracketl"/>
+        <origin xyz="0.25 0 0.1" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-${1*PI/8}" upper="${3*PI/4}" effort="${effort}" velocity="${velocity}"/>
+        
+    </joint> 
+   
+    <joint name="joint8" type="fixed">
+        <parent link="doublelongu_servobracketl"/>
+        <child link="doublelongu_servobracketr"/>
+        <origin xyz="0 0.52 0" rpy="0 0 0"/>
+
+    </joint>
+
+    <joint name="joint9" type="fixed">
+        <parent link="servo2"/>
+        <child  link="servo2_horn"/>
+        <origin xyz="-0.24 -0.02 0.08" rpy="0 0 0"/>
+    </joint>
+
+ 
+    <joint name="joint10" type="revolute">
+        <parent link="doublelongu_servobracketr"/>
+        <child link="core_u"/>
+        <origin xyz="-0.03 0.5 0.03" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="${25*PI/36}" upper="-${PI/4}" effort="${effort}" velocity="${velocity}"/>
+
+    </joint>
+
+
+    <joint name="joint11" type="fixed">
+        <parent link="core_u"/>
+        <child  link="servo3"/>
+        <origin xyz="-0.24 -0.12 -0.02" rpy="0 0 0"/>
+
+    </joint>
+
+    <joint name="joint12" type="fixed">
+        <parent link="servo3"/>
+        <child  link="servo3_horn"/>
+        <origin xyz="-0.24 -0.02 0.08" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint13" type="revolute">
+        <parent link="core_u"/>
+        <child  link="bracketu4"/>
+        <origin xyz="0 1.3 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="${25*PI/36}" upper="-${PI/2}" effort="${effort}" velocity="${velocity}"/>
+
+    </joint>
+
+    <joint name="joint14" type="fixed">
+        <parent link="core_u"/>
+        <child  link="servo4"/>
+        <origin xyz="-0.25 1.2 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint15" type="fixed">
+        <parent link="servo4"/>
+        <child  link="servo4_horn"/>
+        <origin xyz="-0.25 0.125 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint16" type="fixed">
+        <parent link="bracketu4"/>
+        <child  link="servo5"/>
+        <origin xyz="-0.23 0.5 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint17" type="fixed">
+        <parent link="servo5"/>
+        <child  link="servo5_horn"/>
+        <origin xyz="-0.1 0.21 0" rpy="0 0 0"/>
+    </joint>
+
+    
+    <joint name="joint18" type="revolute">
+        <parent link="servo5_horn"/>
+        <child  link="gripper_base"/>
+        <origin xyz="-0.005 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${PI/2}" upper="-${PI/2}" effort="${effort}" velocity="${velocity}"/>
+    </joint>
+
+    <joint name="joint19" type="revolute">
+        <parent link="gripper_base"/>
+        <child  link="gripper_left"/>
+        <origin xyz="-0.125 0.23 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0.23" upper="-0.13" effort="${effort}" velocity="${velocity}"/>
+        <mimic joint="joint22" offset="0" multiplier="-1"/>
+    </joint>
+
+    <joint name="joint20" type="fixed">
+        <parent link="gripper_base"/>
+        <child  link="servo6"/>
+        <origin xyz="0.15 0.23 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint21" type="fixed">
+        <parent link="servo6"/>
+        <child  link="servo6_horn"/>
+        <origin xyz="0.01 0.13 0.06" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint22" type="revolute">
+        <parent link="servo6_horn"/>
+        <child  link="gripper_right"/>
+        <origin xyz="0.01 -0.15 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.13" upper="0.23" effort="${effort}" velocity="${velocity}"/>
+    </joint>
+
+
+<!--
+    <joint name="joint18" type="revolute">
+        <parent link="servo5_horn"/>
+        <child  link="gripper"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${PI/2}" upper="-${PI/2}" effort="${effort}" velocity="${velocity}"/>
+    </joint>
+
+-->
+
+</robot>
 
