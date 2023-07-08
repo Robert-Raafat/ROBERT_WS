@@ -1,1 +1,787 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robertbot">
+
+    <!--Useful Variables (Properties)-->
+    <xacro:property name="PI" value="3.14159265359" />
+    <xacro:property name="effort" value="1000" />
+    <xacro:property name="velocity" value="1" />
+    <xacro:property name="scaling" value="0.001 0.001 0.001" />
+
+    <xacro:macro name="default_inertial" params="mass" >
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="default_transmission" params="number">
+        <transmission name="transmission${number}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="joint${number}">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="motor${number}">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+
+
+
+    <material name="gray">
+        <color rgba="0.2 0.2 0.2 0.9" />
+    </material>
+
+
+    
+        <material name="pinky" >
+        <color rgba="0.98 0.52 0.66 1.0" />
+    </material>
+    <material name="black" >
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    <material name="blueblue" >
+        <color rgba="0.13 0.25 0.78 1.0" />
+      </material>
+    <material name="darkgreen" >
+        <color rgba="0.019 0.28 0.02 1.0" />
+      </material>
+    <material name="coolgrey" >
+        <color rgba="0.58 0.63 0.65 1.0" />
+      </material>
+    <material name="darkgold" >
+        <color rgba="0.70 0.58 0.06 1.0" />
+    </material>
+
+
+  <material name="applegreen" >
+    <color rgba="0.4627450980392157 0.803921568627451 0.14901960784313725 1.0" />
+  </material>
+
+   <material name="brown" >
+     <color rgba="0.396078431372549 0.21568627450980393 0.0 1.0" />
+   </material>
+    
+    <material name="steel">
+        <color rgba="0.75 0.75 0.75 0.30" />
+    </material>
+        
+  
+    <!-- Links -->
+    <link name="world" /> 
+  
+        <link name="base_link_r">
+            <xacro:default_inertial mass="0.075"/>
+        <visual>
+            <origin rpy="0 4.7 0" xyz="0.045 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketr.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="brown" />
+        </visual>
+        <collision>
+            <origin rpy="0 4.7 0" xyz="0.045 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketr.stl" scale="${scaling}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="base_link_l">
+        <xacro:default_inertial mass="0.075"/>
+        <visual>
+            <origin rpy="0 -4.7 3.14" xyz="0.045 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketl.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="brown" />
+        </visual>
+        <collision>
+            <origin rpy="0 -4.7 3.14" xyz="0.045 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/u_type_robot_waist_bracketl.stl" scale="${scaling}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="servo1_bracket">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="1.57 0 0" xyz="-0.01 0.03 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="-0.01 0.03 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo1">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo1_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo2_bracket">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.023 -0.04 0.024"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 1.57 3.14" xyz="0.023 -0.04 0.024"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="doublelongu_servobracketl">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="3.14 0 0" xyz="-0.028 0.052 0.015"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="3.14 0 0" xyz="-0.028 0.052 0.015"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+
+    </link>
+
+    <link name="doublelongu_servobracketr">
+        <xacro:default_inertial mass="0.025"/>
+        <visual> 
+            <origin rpy="0 0 0" xyz="-0.028 -0.002 -0.01"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision> 
+            <origin rpy="0 0 0" xyz="-0.028 -0.002 -0.01"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/long_u_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo2">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.017 0.001 0.006"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="0 -1.57 0" xyz="0.017 0.001 0.006"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo2_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="-0.001 0.012 -0.002"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 1.57 3.14" xyz="-0.001 0.012 -0.002"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+
+    <link name="core_u">
+        <xacro:default_inertial mass="0.23"/>
+        <visual name='ul'> 
+            <origin rpy="0 1.57 1.57" xyz="0.001 -0.037 0.014"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision name='ul'> 
+            <origin rpy="0 1.57 1.57" xyz="0.001 -0.037 0.014"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+        
+
+        <visual name='core'>
+            <origin rpy="0 0 1.57" xyz="-0.0135 0.028 -0.381"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision name='core'>
+            <origin rpy="0 0 1.57" xyz="-0.0135 0.028 -0.381"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+
+        <visual name='ur'>
+            <origin rpy="0 1.57 1.57" xyz="0.0012 0.089 0.014"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision name='ur'>
+            <origin rpy="0 1.57 1.57" xyz="0.0012 0.089 0.014"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/multi_functional_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+        
+        <visual name='ul_outer'>
+            <origin rpy="0 1.57 -3.14" xyz="-0.011 0.028 -0.013"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision name='ul_outer'>
+            <origin rpy="0 1.57 -3.14" xyz="-0.011 0.028 -0.013"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+
+        <visual name='ur_outer'> 
+            <origin rpy="0 1.57 0" xyz="-0.036 0.081 -0.013"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision name='ur_outer'> 
+            <origin rpy="0 1.57 0" xyz="-0.036 0.081 -0.013"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/l_type_servo_bracket.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+
+    </link>
+
+    <link name="servo3">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.019 0.004 0.002"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="0 -1.57 0" xyz="0.019 0.004 0.002"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+    
+    <link name="servo3_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.001 0.015 -0.006"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 1.57 3.14" xyz="0.001 0.015 -0.006"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name='bracketu4'>
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="0 0 4.7" xyz="-0.052 0.055 -0.382"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF2.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="darkgold"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 4.7" xyz="-0.052 0.055 -0.382"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/Disk_Manipulator_6DOF2.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="darkgold"/>
+        </collision>
+    </link>
+
+    
+    <link name="servo4">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="0 -1.57 0" xyz="0.021 -0.001 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="0 -1.57 0" xyz="0.021 -0.001 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo4_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 1.57 3.14" xyz="0.004 -0.004 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 1.57 3.14" xyz="0.004 -0.004 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+    
+    <link name="servo5">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="-1.57 1.57 0" xyz="0 -0.027 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="-1.57 1.57 0" xyz="0 -0.027 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo5_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 1.57 1.57" xyz="0 -0.004 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 1.57 1.57" xyz="0 -0.004 0"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+
+    <link name="gripper_base">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.018 0.049 -0.382"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperbase.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="blueblue" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 -1.57" xyz="-0.018 0.049 -0.382"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperbase.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="blueblue" />
+        </collision>
+    </link>
+
+    <link name="gripper_left">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.025 0.074 -0.384"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsleft.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="blueblue" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 -1.57" xyz="-0.025 0.074 -0.384"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsleft.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="blueblue" />
+        </collision>
+    </link>
+
+    <link name="servo6">
+        <xacro:default_inertial mass="0.05"/>
+        <visual>
+            <origin rpy="0 0 1.57" xyz="0.011 0 -0.04"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 1.57" xyz="0.011 0 -0.04"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/mg996r_servo.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="servo6_horn">
+        <xacro:default_inertial mass="0.005"/>
+        <visual>
+            <origin rpy="1.57 0 1.57" xyz="0 -0.014 -0.007"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 1.57" xyz="0 -0.014 -0.007"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/aluminum_servo_horn.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="coolgrey" />
+        </collision>
+    </link>
+
+    <link name="gripper_right">
+        <xacro:default_inertial mass="0.025"/>
+        <visual>
+            <origin rpy="0 0 -1.57" xyz="-0.017 0.077 -0.39"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsright.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="darkgold" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 -1.57" xyz="-0.017 0.077 -0.39"/>
+            <geometry>
+                <mesh filename="package://robertbot_description/mesh/gripperclawsright.stl" scale="${scaling}"/>
+            </geometry>
+            <material name="darkgold" />
+        </collision>
+    </link>
+
+     
+    <!-- Joints -->  
+    <joint name="virtual_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link_r"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint> 
+    
+       <joint name="joint1" type="fixed">
+        <parent link="base_link_r"/>
+        <child link="base_link_l"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    
+    <joint name="joint2" type="fixed">
+        <parent link="base_link_r"/>
+        <child link="servo1_bracket"/>
+        <origin xyz="-0.01 0.02 0.014" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint3" type="fixed">
+        <parent link="servo1_bracket"/>
+        <child link="servo1"/>
+        <origin xyz="0 0 0.002" rpy="0 0 0"/>
+
+    </joint> 
+
+    <joint name="joint4" type="revolute">
+        <parent link="servo1"/>
+        <child link="servo1_horn"/>
+        <origin xyz="0 0.0095 0.037" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-${2*PI/3}" upper="${2*PI/3}" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+    </joint> 
+
+    <joint name="joint5" type="fixed">
+        <parent link="servo1_horn"/>
+        <child link="servo2_bracket"/>
+        <origin xyz="0.001 0 0.006" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint6" type="fixed">
+        <parent link="servo2_bracket"/>
+        <child link="servo2"/>
+        <origin xyz="0.001 -0.01 0.006" rpy="0 0 0"/>
+    </joint> 
+
+    <joint name="joint7" type="revolute">
+        <parent link="servo2_bracket"/>
+        <child link="doublelongu_servobracketl"/>
+        <origin xyz="0.025 0 0.01" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-${1*PI/8}" upper="${3*PI/4}" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+        
+    </joint> 
+   
+    <joint name="joint8" type="fixed">
+        <parent link="doublelongu_servobracketl"/>
+        <child link="doublelongu_servobracketr"/>
+        <origin xyz="0 0.052 0" rpy="0 0 0"/>
+
+    </joint>
+
+    <joint name="joint9" type="fixed">
+        <parent link="servo2"/>
+        <child  link="servo2_horn"/>
+        <origin xyz="-0.024 -0.002 0.008" rpy="0 0 0"/>
+    </joint>
+
+ 
+    <joint name="joint10" type="revolute">
+        <parent link="doublelongu_servobracketr"/>
+        <child link="core_u"/>
+        <origin xyz="-0.003 0.05 0.003" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-${PI}" upper="${PI/8}" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+
+    </joint>
+
+
+    <joint name="joint11" type="fixed">
+        <parent link="core_u"/>
+        <child  link="servo3"/>
+        <origin xyz="-0.024 -0.012 -0.002" rpy="0 0 0"/>
+
+    </joint>
+
+    <joint name="joint12" type="fixed">
+        <parent link="servo3"/>
+        <child  link="servo3_horn"/>
+        <origin xyz="-0.024 -0.002 0.008" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint13" type="revolute">
+        <parent link="core_u"/>
+        <child  link="bracketu4"/>
+        <origin xyz="0 0.13 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-${25*PI/36}" upper="${pi/2}" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+
+    </joint>
+
+    <joint name="joint14" type="fixed">
+        <parent link="core_u"/>
+        <child  link="servo4"/>
+        <origin xyz="-0.025 0.12 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint15" type="fixed">
+        <parent link="servo4"/>
+        <child  link="servo4_horn"/>
+        <origin xyz="-0.025 0.0125 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint16" type="fixed">
+        <parent link="bracketu4"/>
+        <child  link="servo5"/>
+        <origin xyz="-0.023 0.05 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint17" type="fixed">
+        <parent link="servo5"/>
+        <child  link="servo5_horn"/>
+        <origin xyz="-0.01 0.021 0" rpy="0 0 0"/>
+    </joint>
+
+    
+    <joint name="joint18" type="revolute">
+        <parent link="servo5_horn"/>
+        <child  link="gripper_base"/>
+        <origin xyz="-0.0005 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+    </joint>
+
+    <joint name="joint19" type="revolute">
+        <parent link="gripper_base"/>
+        <child  link="gripper_left"/>
+        <origin xyz="-0.0125 0.023 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.13" upper="0.23" effort="${effort}" velocity="${velocity}"/>
+        <mimic joint="joint22" offset="0" multiplier="-1"/>
+        <dynamics damping="0.01" friction="0.01" />
+    </joint>
+
+    <joint name="joint20" type="fixed">
+        <parent link="gripper_base"/>
+        <child  link="servo6"/>
+        <origin xyz="0.015 0.023 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint21" type="fixed">
+        <parent link="servo6"/>
+        <child  link="servo6_horn"/>
+        <origin xyz="0.001 0.013 0.006" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint22" type="revolute">
+        <parent link="servo6_horn"/>
+        <child  link="gripper_right"/>
+        <origin xyz="0.001 -0.015 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.13" upper="0.23" effort="${effort}" velocity="${velocity}"/>
+        <dynamics damping="0.01" friction="0.01" />
+    </joint>
+
+    <!-- Transmissions-->
+
+    <xacro:default_transmission number="4"/>
+    <xacro:default_transmission number="7"/>
+    <xacro:default_transmission number="10"/>
+    <xacro:default_transmission number="13"/>
+    <xacro:default_transmission number="18"/>
+    <xacro:default_transmission number="22"/>
+
+    <!-- xacro:default_transmission number="5"/>
+    <xacro:default_transmission number="6"/>
+    
+    <xacro:default_transmission number="8"/>
+    <xacro:default_transmission number="9"/>
+    
+    <xacro:default_transmission number="11"/>
+    <xacro:default_transmission number="12"/>
+    
+    <xacro:default_transmission number="14"/>
+    <xacro:default_transmission number="15"/>
+    <xacro:default_transmission number="16"/>
+    <xacro:default_transmission number="17"/>
+    
+    <xacro:default_transmission number="20"/>
+    <xacro:default_transmission number="21"/-->
+    
+
+
+
+ 
+ 
+ 
+
+
+    <!-- gazebo ros_control plugin -->
+    <gazebo reference ="base_link_r">
+     <material>Gazebo/Blue</material>
+    </gazebo> 
+
+    <gazebo reference ="base_link_l">
+     <material>Gazebo/Black</material>
+    </gazebo> 
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/robertbot</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+            <legacyModeNS>true</legacyModeNS>
+        </plugin>
+
+        <plugin name="joint_mimic" filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so">
+          <joint>joint22</joint>
+          <mimicJoint>joint19</mimicJoint>
+          <multiplier>-1.0</multiplier>
+          <offset>0</offset> 
+          <maxEffort>${effort}</maxEffort>             
+          <robotNamespace>/robertbot</robotNamespace>
+        </plugin>
+    </gazebo>
+
+
+
+</robot>
 
