@@ -1,1 +1,15 @@
-
+# Request 
+float64 base
+float64 body
+float64 longu
+float64 coreu
+float64 claw
+float64 gripper
+---
+# Response
+float64 base
+float64 body
+float64 longu
+float64 coreu
+float64 claw
+float64 gripper
