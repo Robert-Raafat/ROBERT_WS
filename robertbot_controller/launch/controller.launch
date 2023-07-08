@@ -1,1 +1,38 @@
+<launch>
 
+    <arg name="is_sim" default="false"/>
+
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find robertbot_controller)/config/trajectory_controllers.yaml" command="load"/>
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find robertbot_controller)/config/joint_state_controller.yaml" command="load"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(find robertbot_description)/urdf/robertbot_gazebo.urdf.xacro"/>
+
+    <!-- If interfacing with the real Hardware -->
+    <group unless="$(arg is_sim)">
+           <!-- Launch the rosserial node that interface ROS with Arduino -->
+        <node pkg="rosserial_arduino" type="serial_node.py" name= "serial_interface" respawn="true" output="screen">
+            <param name="port" value="/dev/ttyACM0" />
+        </node>
+        <!-- Launch the angles converter service -->
+        <node pkg="robertbot_controller" type="AngleConverter.py" name="AngleConverter" 
+            respawn="true" output="screen"/>
+
+        <!-- Launch the Hardware interface with the real robot -->
+        <node name="robertbot_interface_node" pkg="robertbot_controller" type="robertbot_interface_node" 
+            ns="/robertbot" respawn="true" output="screen"/>
+    </group>
+
+    <!-- Load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" 
+        ns="/robertbot" args="joint_state_controller arm_controller gripper_controller" />
+
+    <!-- Convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+        <remap from="/joint_states" to="/robertbot/joint_states" />
+    </node>
+
+</launch>
